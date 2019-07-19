@@ -11,7 +11,12 @@ export default {
     msg: String
   },
   created() {
-    console.log(88, this.$msg)
+    // 数组去重
+    const arr = [1, 2, 3, 2, 1]
+    const result = arr.reduce((current, next) => {
+      current.indexOf(next) === -1 ? current.push(next) : ''
+      return current
+    }, [])
   }
 }
 </script>

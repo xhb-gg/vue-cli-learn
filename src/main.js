@@ -3,11 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
-import Toast from './plugin/toast'
-
-Vue.use(Toast)
+import toast from './plugin/toast.js'
+import 'leaflet'
+import 'leaflet/dist/leaflet.css'
 
 Vue.config.productionTip = false
+Vue.prototype.$toast = toast
 
 new Vue({
   router,
