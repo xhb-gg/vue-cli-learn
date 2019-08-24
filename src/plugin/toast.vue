@@ -1,6 +1,6 @@
 <template>
   <div class="toast">
-    <p>服务器错误，请稍后重试</p>
+    <p>服务器错误，请稍后重试<i class="el-icon-close" @click="close"></i></p>
   </div>
 </template>
 <script>
@@ -12,7 +12,12 @@ export default {
       this.$destroy(true);
       this.$el.parentNode.removeChild(this.$el);
     }, 3000);
-  }
+  },
+  methods: {
+    close() {
+
+    }
+  },
 };
 </script>
 <style lang="scss" scoped>

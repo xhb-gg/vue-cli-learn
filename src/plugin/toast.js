@@ -25,8 +25,9 @@ import Toast from "./toast.vue"; // 引入刚才的 toast 组件
 let ToastConstructor = Vue.extend(Toast); // 这个在前面的前置知识内容里面有讲到
 let instance;
 
-const toast = function() {
+const toast = function(options = {}) {
   instance = new ToastConstructor().$mount(); // 渲染组件
+
   document.body.appendChild(instance.$el); // 挂载到 body 下
 };
 
