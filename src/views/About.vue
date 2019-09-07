@@ -10,7 +10,13 @@
     name: 'about',
     methods: {
       handleClick() {
-        this.$toast()
+        this.$toast({
+          message: '这是测试',
+          duration: 3000,
+          onClose() {
+            console.log('this is close')
+          }
+        })
       }
     },
   }
