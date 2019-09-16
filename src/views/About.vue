@@ -3,10 +3,13 @@
     <h1>This is an about page</h1>
     <el-button @click="handleClick">触发toast</el-button>
     <el-button type="primary" @click="handleDialog">触发dialog</el-button>
+    <el-button type="primary" @click="handleRequest">处理请求</el-button>
   </div>
 </template>
 
 <script>
+import { getWeatherDataType } from '@/api/weather'
+
   export default {
     name: 'about',
     data() {
@@ -29,13 +32,16 @@
           message: '确定删除?',
           cancelButtonText: '取消',
           cancelCallback: () => {
-            // console.log(4444, this.name)
             this.$message('这是提示')
           },
           confirmCallback: () => {
             this.$message('这是成功')
           }
         })
+      },
+      async handleRequest() {
+        const resp = await getWeatherDataType()
+        console.log(7788, resp)
       }
     },
   }
