@@ -1,0 +1,29 @@
+// 取消按钮样式，模态框可用
+.custom-button-cancel {
+  border: 1px solid #dbe1ef;
+  color: #a9adb7;
+  border-radius: 2px;
+  height: 34px;
+  padding: 10px 35px;
+  font-size: 13px;
+  background-color: #ffffff;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    color: #a9adb7;
+  }
+}
+
+// 确认按钮样式，模态框可用
+.custom-button-confirm {
+  border: none;
+  color: #ffffff;
+  border-radius: 2px;
+  height: 34px;
+  padding: 10px 35px;
+  font-size: 13px;
+  background-color: #7cb3ff;
+  &:hover {
+    color: #ffffff;
+    background-color: rgba(124, 179, 255, 0.8) !important;
+  }
+}
