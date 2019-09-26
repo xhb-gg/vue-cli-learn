@@ -31,8 +31,8 @@ const dialog = function(options = {}) {
   instance = new DialogConstructor({
     data: options
   }).$mount(); // 渲染组件
-
   document.body.appendChild(instance.$el); // 挂载到 body 下
+  return instance
 };
 
 export default dialog;
