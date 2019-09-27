@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './routers/index'
-import store from './store'
+import store from './store/index'
 // 引入全局样式
 import './styles/index.scss'
 import toast from './plugin/toast/toast.js'
