@@ -66,6 +66,7 @@
 <script>
 import { userLogin } from '@/api/login'
 import responseHandler from '@/utils/response'
+import Cookie from 'js-cookie'
 
 export default {
   name: 'login',
@@ -103,6 +104,10 @@ export default {
       pwdType: 'password'
     }
   },
+  mounted() {
+    // var inFifteenMinutes = new Date(new Date().getTime() + 5 * 60 * 1000);
+    // Cookie.set('name', 'haibin', { expires: inFifteenMinutes })
+  },
   methods: {
     showPwd() {
       if (this.pwdType === 'password') {
@@ -112,6 +117,7 @@ export default {
       }
     },
     handleLogin() {
+      // console.log(Cookie.get('name'))
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           const resp = await userLogin({

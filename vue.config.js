@@ -1,5 +1,7 @@
 
 const path = require('path')
+const webpack = require('webpack')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 // const vConsolePlugin = require('vconsole-webpack-plugin') // 引入 移动端模拟开发者工具 插件 （另：https://github.com/liriliri/eruda）
 // const CompressionPlugin = require('compression-webpack-plugin') //Gzip
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
@@ -37,6 +39,22 @@ module.exports = {
       args[0]['process.env'].BASE_API = baseApi
       return args
     })
+  },
+  configureWebpack: {
+    plugins: [
+      new webpack.DllReferencePlugin({
+        context: process.cwd(),
+        manifest: require('./public/vendor/vendor-manifest.json')
+      }),
+      new AddAssetHtmlPlugin({
+        // dll文件位置
+        filepath: path.resolve(__dirname, './public/vendor/*.js'),
+        // dll 引用路径
+        publicPath: './vendor',
+        // dll最终输出的目录
+        outputPath: './vendor'
+      })
+    ]
   },
   devServer: {
     proxy: {
