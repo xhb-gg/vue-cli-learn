@@ -7,9 +7,9 @@ export default new Router({
   routes: [
     {
       path: '/',
-      // name: 'home',
-      redirect: '/login',
-      // component: () => import('../views/home/index'),
+      name: 'home',
+      // redirect: '/login',
+      component: () => import('../views/home/index'),
       children: []
     },
     {

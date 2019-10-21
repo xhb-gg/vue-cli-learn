@@ -36,20 +36,19 @@ export default {
     }
   },
   mounted() {
-    var str = 'visit microsoft!'
-    console.log(
-      str.replace(/\b\w/g, word => {
-        return word.toUpperCase()
-      })
-    )
-
+    // var str = 'visit microsoft!'
+    // console.log(
+    //   str.replace(/\b\w/g, word => {
+    //     return word.toUpperCase()
+    //   })
+    // )
     // let i = 0
-    for(let i = 0; i < 3; i++) {
-      const log = () => {
-        console.log('i的值', i)
-      }
-      setTimeout(log, 100)
-    }
+    // for (let i = 0; i < 3; i++) {
+    //   const log = () => {
+    //     console.log('i的值', i)
+    //   }
+    //   setTimeout(log, 100)
+    // }
   },
   methods: {
     beforeUploadOss(param) {
@@ -62,12 +61,12 @@ export default {
       })
       responseHandler.bind(this)(resp, () => {
         const data = resp.data
-        if(data) {
+        if (data) {
           this.fileList.push(data)
         }
       })
     }
-  },
+  }
 }
 </script>
 

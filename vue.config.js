@@ -24,11 +24,11 @@ module.exports = {
   // 更换浏览器导航图标
   pwa: {
     iconPaths: {
-    favicon32: 'favicon.ico',
-    favicon16: 'favicon.ico',
-    appleTouchIcon: 'favicon.ico',
-    maskIcon: 'favicon.ico',
-    msTileImage: 'favicon.ico'
+      favicon32: 'favicon.ico',
+      favicon16: 'favicon.ico',
+      appleTouchIcon: 'favicon.ico',
+      maskIcon: 'favicon.ico',
+      msTileImage: 'favicon.ico'
     }
   },
   // webpack配置
@@ -70,7 +70,7 @@ module.exports = {
     proxy: {
       // proxy all requests starting with /api to jsonplaceholder
       '/api': {
-        target: 'http://10.221.230.190:3000', // http://10.221.230.69:8060 https://api.farm.stdag.cn/v1(http://47.106.82.25:8060/swagger-ui.html)
+        target: 'http://10.221.230.190:6666',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
