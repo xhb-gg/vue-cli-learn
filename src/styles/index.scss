@@ -1,3 +1,171 @@
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: ' ';
+    clear: both;
+    height: 0;
+  }
+}
+
+.clear {
+  zoom: 1;
+}
+
+.clear:after {
+  content: '';
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-direction-v {
+  flex-direction: column;
+}
+
+.flex-wrap-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-center-v {
+  align-items: center;
+}
+
+.flex-center-h {
+  justify-content: center;
+}
+
+.flex-center-vh {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between-h {
+  justify-content: space-between;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.flex-3 {
+  flex: 3;
+}
+
+.flex-4 {
+  flex: 4;
+}
+
+.text-one-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 业务全局样式
+sub,
+sup {
+  position: relative;
+  display: inline-block;
+  transform: scale(0.6);
+}
+
+.text-c {
+  text-align: center !important;
+}
+
+.cl,
+.clearfix {
+  zoom: 1;
+}
+
+.cl:after,
+.clearfix:after {
+  display: block;
+  clear: both;
+  content: '';
+}
+
+em,
+i {
+  font-style: normal;
+}
+
+.page-container {
+  width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.download-img {
+  width: 125px;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+.bg-f6f8fc {
+  background-color: #f6f8fc !important;
+}
+
 // 取消按钮样式，模态框可用
 .custom-button-cancel {
   border: 1px solid #dbe1ef;

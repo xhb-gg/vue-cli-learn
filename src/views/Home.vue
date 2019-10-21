@@ -19,7 +19,6 @@
         />
       </svg>
     </div>
-
     <div class="hollow-circles">
     </div>
   </div>

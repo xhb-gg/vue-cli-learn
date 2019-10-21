@@ -1,7 +1,7 @@
-export default function(data, callback, errorCallback) {
-    if(data && data.code === 0) {
-        callback.bind(this)()
+export default function(resp, callback, errorCallback) {
+    if(resp && resp.code === 0) {
+        callback()
     } else {
-        errorCallback.bind(this)()
+        errorCallback()
     }
 }

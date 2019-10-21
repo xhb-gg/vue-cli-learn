@@ -9,7 +9,10 @@
         ref="loginForm"
         label-position="left"
       >
-        <h3 class="title">看测者后台管理系统</h3>
+        <!-- <h3 class="title">看测者后台管理系统</h3> -->
+        <h3 class="title">
+          <my-input v-model="loginTitle"></my-input>
+        </h3>
         <el-form-item prop="phone">
           <el-input
             name="phone"
@@ -101,12 +104,32 @@ export default {
         ]
       },
       loading: false,
-      pwdType: 'password'
+      pwdType: 'password',
+      loginTitle: '看测者后台管理系统',
+      testList: [{ name: 'xu' }, { age: 25 }]
     }
+  },
+  watch: {
   },
   mounted() {
     // var inFifteenMinutes = new Date(new Date().getTime() + 5 * 60 * 1000);
     // Cookie.set('name', 'haibin', { expires: inFifteenMinutes })
+    const temp = arr => arr.reduce((cur, next) => (cur.push(next), cur), [])
+
+    const o = { name: 'xuhaibin', age: 25 }
+    Object.keys(o).forEach(key => {
+      let temp = o[key]
+      Object.defineProperty(o, key, {
+        enumerable: true,
+        configurable: true,
+        get() {
+          return temp
+        },
+        set(value) {
+          temp = value
+        }
+      })
+    })
   },
   methods: {
     showPwd() {
@@ -123,11 +146,14 @@ export default {
           const resp = await userLogin({
             ...this.loginForm
           })
-          responseHandler(resp, () => {
+          responseHandler.bind(this)(resp, () => {
             const data = resp.data
-            if(data && Object.keys(data).length) {
+            if (data && Object.keys(data).length) {
               this.$store.commit('SET_TOKEN', data.token)
               this.$store.commit('SET_USERINFO', data)
+              this.$router.push({
+                path: '/plugin'
+              })
             }
           })
         } else {
@@ -146,7 +172,7 @@ export default {
   height: 100vh;
   width: 100%;
   background-color: rgb(240, 242, 245);
-  background-image: url("./images/bg_all.png");
+  background-image: url('./images/bg_all.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -159,7 +185,7 @@ export default {
     .title {
       color: rgba(87, 160, 254, 0.9);
       font-size: 22px;
-      font-family: "微软雅黑";
+      font-family: '微软雅黑';
       font-weight: normal;
       margin-bottom: 40px;
     }
@@ -173,7 +199,7 @@ export default {
         height: 11px;
         display: inline-block;
         padding-right: 8px;
-        border-right: 2px solid #BBBBBB;
+        border-right: 2px solid #bbbbbb;
         box-sizing: content-box;
       }
       .svg-container-password {
@@ -181,7 +207,7 @@ export default {
         height: 12px;
         display: inline-block;
         padding-right: 8px;
-        border-right: 2px solid #BBBBBB;
+        border-right: 2px solid #bbbbbb;
         box-sizing: content-box;
       }
     }
@@ -229,7 +255,7 @@ $light_gray: rgba(0, 0, 0, 0.85);
     background: #57a0fe;
     height: 40px;
     font-size: 17px;
-    font-family: "微软雅黑";
+    font-family: '微软雅黑';
     box-sizing: border-box;
   }
 }

@@ -8,6 +8,9 @@ const service = axios.create({
 
 // request拦截器
 service.interceptors.request.use(config => {
+  if (config.hasFile) {
+    config.headers['Content-Type'] = `multipart/form-data;`
+  }
   return config
 }, error => {
   console.log(error) // for debug
