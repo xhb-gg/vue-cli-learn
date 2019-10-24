@@ -1,4 +1,6 @@
 import axios from 'axios'
+import store from '@/store'
+import { getToken, koaToken } from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
@@ -7,14 +9,19 @@ const service = axios.create({
 })
 
 // request拦截器
-service.interceptors.request.use(config => {
-  if (config.hasFile) {
-    config.headers['Content-Type'] = `multipart/form-data;`
+service.interceptors.request.use(
+  config => {
+    const token = store.getters.token || getToken(koaToken)
+    config.headers['Authorization'] = token
+    if (config.hasFile) {
+      config.headers['Content-Type'] = `multipart/form-data;`
+    }
+    return config
+  },
+  error => {
+    console.log(error) // for debug
   }
-  return config
-}, error => {
-  console.log(error) // for debug
-})
+)
 
 // respone拦截器
 service.interceptors.response.use(

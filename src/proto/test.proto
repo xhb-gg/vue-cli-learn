@@ -1,0 +1,43 @@
+syntax = "proto3";
+package Proto;
+
+option java_multiple_files = true;
+option java_package = "com.stdag.service.proto";
+option java_outer_classname = "Test";  //登陆协议
+import "common.proto";
+
+
+message TestOne{ // 第一次测试
+    message S2C{
+        string name = 1;
+        string password = 2;
+        string version = 3;
+    }
+    message C2S{
+        string name = 1;
+        string password = 2;
+        string version = 3;
+    }
+}
+
+message S99999{  //心跳包
+
+    message  S2C{
+        int32 serverTime = 1; //服务器时间
+    }
+
+    message C2S{
+    	string id=1;//用户id
+    }
+}
+
+message S99998{  //
+
+    message  S2C{
+        int32 serverTime = 1; //服务器时间
+    }
+
+    message C2S{
+    	string id=1;//用户id
+    }
+}

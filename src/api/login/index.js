@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+// import libRequest from '@/lib/request'
 
 const prefix = 'user'
 
@@ -10,6 +11,20 @@ export function userLogin(param) {
     data: {
       phone: param.phone,
       password: param.password
+    }
+  })
+}
+
+// 创建用户
+export function createUser(param) {
+  return request({
+    url: `${prefix}/userList`,
+    method: 'post',
+    responseType: 'arraybuffer',
+    data: {
+      sex: param.sex,
+      name: param.name,
+      age: param.age
     }
   })
 }

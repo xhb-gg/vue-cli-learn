@@ -1,0 +1,18 @@
+syntax = "proto3";
+package Proto;  
+  
+option java_multiple_files = true;
+option java_package = "com.stdag.service.proto";  
+option java_outer_classname = "Common";  //登陆协议
+
+message Frame{ //统一输出接口
+	string messageType = 1;
+
+    bytes payload = 2;
+}
+
+message RoomUserInfo{ //房间用户信息
+	string userId = 1; //用户id
+    string nickName = 2; //用户昵称
+    string userHeaderImage = 3;//用户头像
+}

@@ -70,10 +70,17 @@ module.exports = {
     proxy: {
       // proxy all requests starting with /api to jsonplaceholder
       '/api': {
-        target: 'http://10.221.230.190:6666',
+        target: 'http://10.221.230.190:6666', //http://10.221.230.190:6666
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
+        }
+      },
+      '/protoApi': {
+        target: 'ws://10.221.230.148:8001',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/protoApi': ''
         }
       }
     }

@@ -23,17 +23,17 @@ Vue.config.productionTip = false
 Vue.prototype.$toast = toast
 Vue.prototype.$prompt = prompt
 
-const requireAll = context => context.keys().map(context)
+// const requireAll = context => context.keys().map(context)
 
-const component = require.context('./components', false, /\.vue$/)
+// const component = require.context('./components', false, /\.vue$/)
 
-requireAll(component).forEach(({ default: item }) => {
-  console.log('item', item)
-  const name = (
-    item.name || /(\S+\/)(\S+)\.vue/.exec(item.hotID)[2]
-  ).toLowerCase()
-  Vue.component(`my-${name}`, item)
-})
+// requireAll(component).forEach(({ default: item }) => {
+//   console.log('item', item)
+//   const name = (
+//     item.name || /(\S+\/)(\S+)\.vue/.exec(item.hotID)[2]
+//   ).toLowerCase()
+//   Vue.component(`my-${name}`, item)
+// })
 
 new Vue({
   router,

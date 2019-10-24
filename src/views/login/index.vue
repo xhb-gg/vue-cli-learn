@@ -109,9 +109,10 @@ export default {
       testList: [{ name: 'xu' }, { age: 25 }]
     }
   },
-  watch: {
-  },
+  watch: {},
   mounted() {
+    const socket = new WebSocket('"http://10.221.230.190:7777"')
+
     // var inFifteenMinutes = new Date(new Date().getTime() + 5 * 60 * 1000);
     // Cookie.set('name', 'haibin', { expires: inFifteenMinutes })
     const temp = arr => arr.reduce((cur, next) => (cur.push(next), cur), [])

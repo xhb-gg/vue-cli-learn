@@ -7,6 +7,7 @@
 <script>
 import { getGeoJsonData } from '@/api/map'
 import responseHandle from '@/utils/response'
+import turf from 'turf'
 
 // 地图配置
 const mapParams = {
@@ -34,9 +35,11 @@ export default {
           fillOpacity: 1,
           weight: 1,
           color: 'rgba(28,214,255,1)'
-        }
+        },
+        onEachFeature: this.onEachFeature // 地图点击
       },
-      cacheMap: {}
+      cacheMap: {},
+      adcode: 100000
     }
   },
   mounted() {
@@ -49,7 +52,7 @@ export default {
     },
     async handleGetGeoJsonData() {
       const resp = await getGeoJsonData({
-        adcode: 100000
+        adcode: this.adcode
       })
       const features = resp.features
       this.geoLayer = L.geoJson(features, this.mapGeoJson).addTo(this.cacheMap)
@@ -66,15 +69,84 @@ export default {
           properties: properties
         })
       })
+    },
+    // 渲染地区标记文字
+    renderPopupText(param) {
+      const cacheMap = this.cacheMap
+      const name = param.name
+      const properties = param.properties
+      // const level = properties.level
+      let center = param.center
+
+      if (this.regionCenterFixed(name)) {
+        center = properties.center
+      }
+
+      // eslint-disable-next-line no-undef
+      L.popup({
+        className: 'me-leaflet-popup-text',
+        closeButton: false,
+        closeOnClick: false
+      })
+        .setLatLng([center[1], center[0]])
+        .setContent(name)
+        .addTo(cacheMap)
+    },
+    // 地区中心点修复
+    regionCenterFixed(name) {
+      const nameList = ['内蒙古自治区', '益阳市']
+      if (nameList.includes(name)) {
+        return true
+      }
+      return false
+    },
+    // feature绑定事件
+    onEachFeature(feature, layer) {
+      layer.on({
+        // mouseover: this.highLightFeature,
+        // mouseout: this.resetHighLight,
+        click: this.clickToFeature
+      })
+    },
+    clickToFeature(e) {
+      const feature = e.target.feature
+      const adcode = feature.properties.adcode
+      const level = feature.properties.level
+      if (level === 'district') return
+      this.adcode = adcode
+      this.cacheMap.removeLayer(this.geoLayer)
+      this.handleGetGeoJsonData()
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .cache-map {
   height: 100vh;
   background: transparent;
   z-index: 1;
+  .me-leaflet-popup-text {
+    user-select: none;
+    .leaflet-popup-tip-container {
+      display: none;
+    }
+    .leaflet-popup-content {
+      position: relative;
+      top: 15px;
+      left: -2px;
+      margin: 0 !important;
+      line-height: 0 !important;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: transparent;
+      color: white;
+      box-shadow: none;
+      text-align: center;
+    }
+  }
 }
 </style>

@@ -10,7 +10,15 @@ const dllPath = 'public/vendor'
 module.exports = {
   entry: {
     // 需要提取的库文件
-    vendor: ['vue', 'vue-router', 'vuex', 'axios', 'element-ui', 'moment']
+    vendor: [
+      'vue',
+      'vue-router',
+      'vuex',
+      'axios',
+      'element-ui',
+      'moment',
+      'turf'
+    ]
   },
   output: {
     path: path.join(__dirname, dllPath),
@@ -26,9 +34,7 @@ module.exports = {
     // }),
     // "clean-webpack-plugin": "^3.0.0"
     // clean-webpack-plugin 3 版本需要传对象
-    new CleanWebpackPlugin({
-
-    }),
+    new CleanWebpackPlugin({}),
     // 设置环境变量
     new webpack.DefinePlugin({
       'process.env': {
