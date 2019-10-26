@@ -49,7 +49,7 @@
             </span>
             <span slot="suffix" class="el-input__icon show-pwd" @click="showPwd" v-else>
               <svg-icon icon-class="show"/>
-            </span> -->
+            </span>-->
           </el-input>
         </el-form-item>
         <el-form-item>
@@ -111,8 +111,6 @@ export default {
   },
   watch: {},
   mounted() {
-    const socket = new WebSocket('"http://10.221.230.190:7777"')
-
     // var inFifteenMinutes = new Date(new Date().getTime() + 5 * 60 * 1000);
     // Cookie.set('name', 'haibin', { expires: inFifteenMinutes })
     const temp = arr => arr.reduce((cur, next) => (cur.push(next), cur), [])

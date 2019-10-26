@@ -10,6 +10,7 @@ import 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet.pm'
 import 'leaflet.pm/dist/leaflet.pm.css'
+import './routers/permission'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

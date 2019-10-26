@@ -67,6 +67,7 @@ module.exports = {
     ]
   },
   devServer: {
+    port: 8024,
     proxy: {
       // proxy all requests starting with /api to jsonplaceholder
       '/api': {

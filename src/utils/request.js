@@ -11,7 +11,7 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
   config => {
-    const token = store.getters.token || getToken(koaToken)
+    const token = 'Bearer ' + (store.getters.token || getToken(koaToken))
     config.headers['Authorization'] = token
     if (config.hasFile) {
       config.headers['Content-Type'] = `multipart/form-data;`

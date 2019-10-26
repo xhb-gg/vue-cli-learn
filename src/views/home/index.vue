@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <!-- <p>首页</p>
+  <div id="homePage">
+    <!-- <p>首页</p>
         <el-input
             type="textarea"
             :rows="2"
@@ -13,32 +13,73 @@
             <li v-for="(message, index) in messageList" :key="index">{{message}}</li>
         </ul>
         <p :[attributeName]="value">变量</p>
-        <el-button type="primary" @click="handleAttriChange">改变</el-button> -->
-        <!-- <el-button type="primary" size="small" @click="getStudentListData">proto</el-button> -->
-        <user-chat></user-chat>
-    </div>
+    <el-button type="primary" @click="handleAttriChange">改变</el-button>-->
+    <!-- <el-button type="primary" size="small" @click="getStudentListData">proto</el-button> -->
+    <user-chat :isRefresh.sync="isRefresh" :isUpdate="true" placeholder="Enter your message"></user-chat>
+    <!-- <base-input v-model="testValue"></base-input> -->
+    <!-- <div class="flex flex-center-v">
+      <span>好友列表：</span>
+      <base-select :selectList="friendList" v-model="currentFriendId"></base-select>
+    </div>-->
+  </div>
 </template>
 
 <script>
 import { getStudentList } from '@/api/student/index'
 import userChat from './components/userChat'
+import baseInput from './components/baseInput'
+import baseSelect from './components/baseSelect'
 import axios from 'axios'
 import protoRoot from '@/proto/proto'
 import protobuf from 'protobufjs'
+import AddDom from './components/addDom'
+
+let socket = null
+
+socket = new WebSocket('ws://10.221.230.148:8001')
+
+socket.onopen = function() {
+  console.log('socket已经建立连接')
+}
 
 export default {
   name: 'home',
-  components: { userChat },
+  components: { userChat, baseInput, baseSelect },
+  provide: function() {
+    return {
+      provideTestData: 'xixi'
+    }
+  },
   data() {
     return {
       message: '',
       messageList: [],
       attributeName: 'title',
       value: 'ff',
-      userCount: 'user-count'
+      userCount: 'user-count',
+      testValue: 'haha',
+      friendList: [
+        {
+          label: '张三',
+          value: '1'
+        },
+        {
+          label: '李四',
+          value: '2'
+        }
+      ],
+      currentFriendId: '1',
+      isRefresh: false
     }
   },
   mounted() {
+    let dom = new AddDom('p', 'homePage')
+    dom.init()
+
+    this.$once('hook:beforeDestroy', function() {
+      console.log('this.$once的用法')
+    })
+
     var obj = {
       name: 'xu',
       printName() {
@@ -65,7 +106,7 @@ export default {
 
       static showHobby() {
         // static 中的this指向函数本身
-        console.log('hobbies', this.name)
+        // console.log('hobbies', this.name)
       }
     }
 
@@ -85,13 +126,6 @@ export default {
       const data = pbConstruct.create(param)
       return pbConstruct.encode(data).finish()
     },
-    handleEncodeData(data) {
-      const pbConstruct = protoRoot.lookup('Proto.Frame')
-      const outterData = pbConstruct.decode(data)
-      let protoTest = protoRoot.lookup('TestOne.S2C')
-      let testDataResponse = protoTest.decode(outterData.payload)
-      console.log(999, testDataResponse)
-    },
     getStudentListData() {
       const field = {
         name: 'xuhaibin',
@@ -105,16 +139,11 @@ export default {
       }
       const outerData = this.encodeData('Proto.Frame', outer)
       let vm = this
-      const socket = new WebSocket('ws://10.221.230.148:8001')
-      socket.onopen = function() {
-        // Web Socket 已连接上，使用 send() 方法发送数据
-        socket.send(outerData)
-        console.log('数据发送中...')
-      }
-      socket.onmessage = function(evt) {
-        vm.handleEncodeData(outerData)
-        const data = evt.data
 
+      // Web Socket 已连接上，使用 send() 方法发送数据
+      socket.send(outerData)
+      socket.onmessage = function(evt) {
+        const data = evt.data
         let fileReader = new FileReader()
         fileReader.onload = function() {
           let arrayBuffer = this.result
@@ -122,8 +151,6 @@ export default {
           let frameDataResponse = protoFrame.decode(new Uint8Array(arrayBuffer))
           let protoTest = protoRoot.lookup('TestOne.S2C')
           let testDataResponse = protoTest.decode(frameDataResponse.payload)
-          console.log(frameDataResponse)
-          console.log(testDataResponse)
         }
         fileReader.readAsArrayBuffer(data)
       }

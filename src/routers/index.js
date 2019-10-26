@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -26,6 +26,13 @@ export default new Router({
       path: '/map',
       name: 'map',
       component: () => import('../views/map/index')
+    },
+    {
+      path: '*',
+      name: '404',
+      component: () => import('../views/404/404.vue')
     }
   ]
 })
+
+export default router

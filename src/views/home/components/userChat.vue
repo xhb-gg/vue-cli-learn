@@ -1,22 +1,15 @@
 <template>
-    <div class="user-chat-container">
-      <div class="chat-list-container">
-        <ul>
-          <li v-for="(chat, index) in messageList" :key="index">
-            {{chat}}
-          </li>
-        </ul>
-      </div>
-      <div class="chat-bottom-area flex">
-        <el-input
-          type="textarea"
-          autosize
-          placeholder="请输入内容"
-          v-model="chat">
-        </el-input>
-        <el-button type="primary" plain size="mini" @click="handleSocket">发送</el-button>
-      </div>
+  <div class="user-chat-container">
+    <div class="chat-list-container">
+      <ul>
+        <li v-for="(chat, index) in messageList" :key="index">{{chat}}</li>
+      </ul>
     </div>
+    <div class="chat-bottom-area flex">
+      <el-input type="textarea" autosize placeholder="请输入内容" v-model="chat"></el-input>
+      <el-button type="primary" plain size="mini" @click="handleSocket">发送</el-button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -27,6 +20,9 @@ let vm = ''
 
 export default {
   name: 'userCount',
+  // inheritAttrs: false,
+  props: ['isUpdate', 'isRefresh'],
+  inject: ['provideTestData'],
   data() {
     return {
       chat: '',
@@ -34,15 +30,21 @@ export default {
       socketId: ''
     }
   },
+  created() {
+    console.log('测试created与inject的先后')
+  },
   mounted() {
+    function selfFun(name) {
+      this.name = name
+    }
+    let testObj = new selfFun('xuhaibin')
+    console.log(Object.getPrototypeOf(testObj) === selfFun.prototype)
     vm = this
     this.socket = io('http://10.221.230.190:7777')
     this.socket.on('socketId', data => {
-      console.log('socketId', data)
       this.socketId = data
     })
     this.socket.on('message', data => {
-      console.log('server socket message', data)
       vm.messageList.push(data)
     })
     this.socket.on('userDisconnect', data => {
@@ -56,6 +58,7 @@ export default {
       return pbConstruct.encode(data).finish()
     },
     handleSocket() {
+      this.$emit('update:isRefresh', !this.isRefresh)
       if (!this.chat) {
         this.$message.error('不能发送空白消息哦')
         return

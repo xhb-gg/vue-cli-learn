@@ -39,7 +39,7 @@ export const simpleObserver = () => {
  * @return { Number }
  */
 export const countOccurrences = (arr, val) =>
-arr.reduce((cur, next) => (next === val ? cur + 1 : cur), 0)
+  arr.reduce((cur, next) => (next === val ? cur + 1 : cur), 0)
 
 /**
  * 两数组的交集
@@ -49,4 +49,14 @@ arr.reduce((cur, next) => (next === val ? cur + 1 : cur), 0)
 export const intersection = (arr1, arr2) => {
   const temp = new Set(arr2)
   return arr1.filter(x => temp.has(x))
+}
+
+// 手动实现instanceof功能
+export const selfInstanceOf = (left, right) => {
+  if (left === null || typeof left !== 'object') return false
+  let proto = Object.getPrototypeOf(left)
+  while (true) {
+    if (proto === right.prototype) return true
+    proto = Object.getPrototypeOf(proto)
+  }
 }
