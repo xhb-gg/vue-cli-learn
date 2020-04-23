@@ -36,11 +36,7 @@ module.exports = {
     // clean-webpack-plugin 3 版本需要传对象
     new CleanWebpackPlugin({}),
     // 设置环境变量
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: 'production'
-      }
-    }),
+    new webpack.DefinePlugin({}),
     // manifest.json 描述动态链接库包含了哪些内容
     new webpack.DllPlugin({
       path: path.join(__dirname, dllPath, '[name]-manifest.json'),

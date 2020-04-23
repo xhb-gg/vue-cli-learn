@@ -56,7 +56,26 @@ export const selfInstanceOf = (left, right) => {
   if (left === null || typeof left !== 'object') return false
   let proto = Object.getPrototypeOf(left)
   while (true) {
+    if (proto === null) return false
     if (proto === right.prototype) return true
     proto = Object.getPrototypeOf(proto)
   }
+}
+
+/**
+ * 数组对象去重
+ * @param {Array, String: 数组中每个对象的唯一标识}
+ */
+export const deleteDuplicateFromObjArray = (arr, field) => {
+  // 方法一
+  // return arr.reduce((cur, next) => {
+  //   const index = cur.findIndex(item => item[field] === next[field])
+  //   return index === -1 ? [...cur, next] : [...cur]
+  // }, [])
+  // 方法二 推荐
+  const o = {}
+  return arr.reduce((cur, next) => {
+    o[next[field]] ? '' : (o[next[field]] = true && cur.push(next))
+    return cur
+  }, [])
 }

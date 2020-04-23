@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container" v-if="false">
     <div class="login-body__right">
       <el-form
         class
@@ -9,9 +9,9 @@
         ref="loginForm"
         label-position="left"
       >
-        <!-- <h3 class="title">看测者后台管理系统</h3> -->
+        <h3 class="title">简单聊天室</h3>
         <h3 class="title">
-          <my-input v-model="loginTitle"></my-input>
+          <!-- <my-input v-model="loginTitle"></my-input> -->
         </h3>
         <el-form-item prop="phone">
           <el-input
@@ -59,7 +59,8 @@
             style="width:100%;"
             :loading="loading"
             @click="handleLogin"
-          >登&nbsp;录</el-button>
+            >登&nbsp;录</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -67,7 +68,7 @@
 </template>
 
 <script>
-import { userLogin } from '@/api/login'
+import { userLogin } from '@/api/user'
 import responseHandler from '@/utils/response'
 import Cookie from 'js-cookie'
 
@@ -113,22 +114,32 @@ export default {
   mounted() {
     // var inFifteenMinutes = new Date(new Date().getTime() + 5 * 60 * 1000);
     // Cookie.set('name', 'haibin', { expires: inFifteenMinutes })
-    const temp = arr => arr.reduce((cur, next) => (cur.push(next), cur), [])
 
-    const o = { name: 'xuhaibin', age: 25 }
-    Object.keys(o).forEach(key => {
-      let temp = o[key]
-      Object.defineProperty(o, key, {
-        enumerable: true,
-        configurable: true,
-        get() {
-          return temp
-        },
-        set(value) {
-          temp = value
+    // 柯里化
+    function curry(fn) {
+      if (fn.length <= 1) return fn
+      const generator = (...args) => {
+        console.log('args', args)
+        if (fn.length === args.length) {
+          return fn(...args)
+        } else {
+          return (...args2) => {
+            console.log('args2', args2)
+            return generator(...args, ...args2)
+          }
         }
-      })
-    })
+      }
+      return generator
+    }
+    let add = (a, b, c, d) => a + b + c + d
+    const curriedAdd = curry(add)
+
+    // worker使用
+    if ('Worker' in window) {
+      const worker = new Worker('worker.js')
+      const data = [1, 2]
+      worker.postMessage(data)
+    }
   },
   methods: {
     showPwd() {
@@ -151,7 +162,7 @@ export default {
               this.$store.commit('SET_TOKEN', data.token)
               this.$store.commit('SET_USERINFO', data)
               this.$router.push({
-                path: '/plugin'
+                path: '/'
               })
             }
           })

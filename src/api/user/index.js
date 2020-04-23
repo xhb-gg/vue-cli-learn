@@ -28,3 +28,19 @@ export function createUser(param) {
     }
   })
 }
+
+// 获取用户列表
+export function getUserList(param) {
+  return request({
+    url: `${prefix}/userList`,
+    method: 'get'
+  })
+}
+
+// 获取某个用户信息
+export function getUserByUserId(param) {
+  return request({
+    url: `${prefix}/${param.userId}`,
+    method: 'get'
+  })
+}

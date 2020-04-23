@@ -14,37 +14,33 @@
         </ul>
         <p :[attributeName]="value">变量</p>
     <el-button type="primary" @click="handleAttriChange">改变</el-button>-->
-    <!-- <el-button type="primary" size="small" @click="getStudentListData">proto</el-button> -->
-    <user-chat :isRefresh.sync="isRefresh" :isUpdate="true" placeholder="Enter your message"></user-chat>
+    <!-- <user-chat
+      :isRefresh.sync="isRefresh"
+      :isUpdate="true"
+      placeholder="Enter your message"
+    ></user-chat> -->
     <!-- <base-input v-model="testValue"></base-input> -->
-    <!-- <div class="flex flex-center-v">
+    <!-- <div class="flex">
       <span>好友列表：</span>
-      <base-select :selectList="friendList" v-model="currentFriendId"></base-select>
-    </div>-->
+      <base-select
+        :selectList="friendList"
+        v-model="currentFriendId"
+      ></base-select>
+    </div> -->
+    <!-- <page-sticky></page-sticky> -->
   </div>
 </template>
 
 <script>
-import { getStudentList } from '@/api/student/index'
 import userChat from './components/userChat'
 import baseInput from './components/baseInput'
 import baseSelect from './components/baseSelect'
-import axios from 'axios'
-import protoRoot from '@/proto/proto'
-import protobuf from 'protobufjs'
+import pageSticky from './components/pageSticky'
 import AddDom from './components/addDom'
-
-let socket = null
-
-socket = new WebSocket('ws://10.221.230.148:8001')
-
-socket.onopen = function() {
-  console.log('socket已经建立连接')
-}
 
 export default {
   name: 'home',
-  components: { userChat, baseInput, baseSelect },
+  components: { userChat, baseInput, baseSelect, pageSticky },
   provide: function() {
     return {
       provideTestData: 'xixi'
@@ -73,27 +69,9 @@ export default {
     }
   },
   mounted() {
-    let dom = new AddDom('p', 'homePage')
-    dom.init()
-
     this.$once('hook:beforeDestroy', function() {
       console.log('this.$once的用法')
     })
-
-    var obj = {
-      name: 'xu',
-      printName() {
-        console.log('name', this.name)
-      }
-    }
-
-    var newObj = {
-      name: 'xuhaibin'
-    }
-
-    var newPrintName = obj.printName.bind(newObj)
-
-    newPrintName()
 
     class Person {
       constructor() {
@@ -109,55 +87,13 @@ export default {
         // console.log('hobbies', this.name)
       }
     }
-
-    const star = new Person()
-    star.addHobby('唱歌')
-
-    const student = new Person()
-    student.addHobby('读书')
-    Person.showHobby()
   },
   methods: {
     handleAttriChange() {
       this.attributeName = 'href'
-    },
-    encodeData(field, param) {
-      const pbConstruct = protoRoot.lookup(field)
-      const data = pbConstruct.create(param)
-      return pbConstruct.encode(data).finish()
-    },
-    getStudentListData() {
-      const field = {
-        name: 'xuhaibin',
-        password: '123456',
-        version: '1'
-      }
-      const innerData = this.encodeData('TestOne.C2S', field)
-      const outer = {
-        messageType: 'TestOne',
-        payload: innerData
-      }
-      const outerData = this.encodeData('Proto.Frame', outer)
-      let vm = this
-
-      // Web Socket 已连接上，使用 send() 方法发送数据
-      socket.send(outerData)
-      socket.onmessage = function(evt) {
-        const data = evt.data
-        let fileReader = new FileReader()
-        fileReader.onload = function() {
-          let arrayBuffer = this.result
-          let protoFrame = protoRoot.lookup('Proto.Frame')
-          let frameDataResponse = protoFrame.decode(new Uint8Array(arrayBuffer))
-          let protoTest = protoRoot.lookup('TestOne.S2C')
-          let testDataResponse = protoTest.decode(frameDataResponse.payload)
-        }
-        fileReader.readAsArrayBuffer(data)
-      }
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

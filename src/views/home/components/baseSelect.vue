@@ -1,22 +1,28 @@
 <template>
   <div>
     <div class="custom-select">
-      <div class="custom-select-value" @click="toggleMenu">{{fileterValue}}</div>
-      <el-collapse-transition>
-        <ul v-show="showMenu" class="custom-select-list">
+      <div class="custom-select-value" @click="toggleMenu">
+        {{ fileterValue }}
+      </div>
+      <transition name="dropdown">
+        <ul v-if="showMenu" class="custom-select-list">
           <li
             class="custom-select-list-item"
             v-for="(tag, index) in selectList"
             :key="index"
             @click="handleItemChange(tag.value)"
-          >{{tag.label}}</li>
+          >
+            {{ tag.label }}
+          </li>
         </ul>
-      </el-collapse-transition>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'baseSelect',
   props: {
@@ -38,6 +44,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      name1: state => state.user.name
+    }),
     fileterValue() {
       return (
         this.value &&
@@ -45,10 +54,13 @@ export default {
       )
     }
   },
-  mounted() {
+  async mounted() {
     /**
      * call,apply 实现继承
      * 缺点：不能读取Person的原型
+     * 使用Student.prototype = Object.create(Person.prototype) 可消除该缺点
+     * 但是这样做会导致Student.prototype.constructor = Person
+     * 使用Object.setPrototypeOf(Student.prototype, Person.prototype)则可以很完美实现继承
      */
     function Person(name) {
       this.name = name
@@ -62,11 +74,12 @@ export default {
     function Student(name) {
       Person.call(this, name)
     }
-
-    let teacher = new Student('wang')
-    console.log(111, typeof teacher.logName)
+    Student.prototype = Object.create(Person.prototype)
+    Student.prototype.constructor = Student
+    let student = new Student('wang')
   },
   methods: {
+    ...mapActions(['testAction']),
     toggleMenu() {
       this.showMenu = !this.showMenu
     },
@@ -94,5 +107,9 @@ export default {
     .custom-select-list-item {
     }
   }
+}
+.dropdown-enter {
+  opacity: 0;
+  transform: scale(1.5);
 }
 </style>

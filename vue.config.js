@@ -14,13 +14,13 @@ function resolve(dir) {
 module.exports = {
   //基本路径
   //baseUrl: './',//vue-cli3.3以下版本使用
-  publicPath: './', //vue-cli3.3+新版本使用
+  publicPath: '/', //vue-cli3.3+新版本使用
   //输出文件目录
   outputDir: 'dist',
   //放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
   assetsDir: 'static',
   //是否使用包含运行时编译器的 Vue 构建版本
-  runtimeCompiler: false,
+  runtimeCompiler: true,
   // 更换浏览器导航图标
   pwa: {
     iconPaths: {
@@ -67,23 +67,16 @@ module.exports = {
     ]
   },
   devServer: {
-    port: 8024,
-    proxy: {
-      // proxy all requests starting with /api to jsonplaceholder
-      '/api': {
-        target: 'http://10.221.230.190:6666', //http://10.221.230.190:6666
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      },
-      '/protoApi': {
-        target: 'ws://10.221.230.148:8001',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/protoApi': ''
-        }
-      }
-    }
+    port: 3000
+    // proxy: {
+    //   // proxy all requests starting with /api to jsonplaceholder
+    //   '/api': {
+    //     target: 'http://10.221.230.190:8000', //http://10.221.230.190:6666
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api': ''
+    //     }
+    //   }
+    // }
   }
 }

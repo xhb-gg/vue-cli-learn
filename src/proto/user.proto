@@ -1,0 +1,118 @@
+syntax = "proto3";
+package Proto;  
+  
+option java_multiple_files = true;
+option java_package = "com.stdag.service.proto";  
+option java_outer_classname = "User";  //登陆协议
+import "common.proto"; 
+
+
+message S10001{  //心跳包
+
+    message  S2C{
+        int32 serverTime = 1; //服务器时间
+    }
+
+    message C2S{
+    	string id=1;//用户id
+    }
+	
+}
+
+
+message S10002{  //扑街包
+
+    message  S2C{
+        int32 serverTime = 1; //服务器时间
+    }
+
+    message C2S{
+    	string id=1;//用户id
+    	string time=2;
+    }
+	
+}
+
+
+
+message S10003{  //登陆包
+
+    message  S2C{
+        int32 status = 1; //0.登陆识别，1.登陆成功
+    }
+
+    message C2S{
+    	string userId=1;//用户id
+    	string token=2;//app登陆token
+    }
+	
+}
+
+
+
+message S10004{  //用户进入直播间
+
+    message  S2C{
+        int32 status = 1; //0.直播间不存在，1.成功
+        RoomUserInfo roomOwner=2;//房主信息
+    }
+
+    message C2S{
+    	string userId=1;//用户id
+    	string roomId=2;//房间id（设备id）
+    }
+	
+}
+
+
+message S10005{  //用户离开直播间
+
+    message  S2C{
+        int32 status = 1; //0.失败，1.成功
+    }
+
+    message C2S{
+    	string userId=1;//用户id
+    	string roomId=2;//房间id（设备id）
+    }
+}
+
+
+
+
+message S10006{  //用户收到广播消息
+
+    message  S2C{
+        string userId = 1; //用户id
+        string nickName = 2; //用户昵称
+        string userHeaderImage = 3;//用户头像
+        string content=4;//消息内容
+        int32 time=5;//时间
+        int32 type=6;//0.普通文本；1.进入直播间
+    }
+}
+
+
+message S10007{  //用户进入房间or有人离开房间，服务端推送在线人列表
+
+    message  S2C{
+        repeated RoomUserInfo userInfoList= 1; //用户列表
+    }
+} 
+
+
+message S10008{  //发送消息
+
+    message  S2C{
+       int32 status = 1; //0.失败，1.成功
+    }
+
+    message C2S{
+    	string userId=1;//用户id
+        string content=2;//消息内容
+        string roomId=3;//房间id
+        int32  videoTime=4;//视频播放到的时间，未开始传0
+    }
+} 
+
+

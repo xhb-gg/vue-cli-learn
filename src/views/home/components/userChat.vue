@@ -5,6 +5,11 @@
         <li v-for="(chat, index) in messageList" :key="index">{{chat}}</li>
       </ul>
     </div>
+    <div>
+      <user-list :userData="userList">
+        <template v-slot:item="{userItem}">{{userItem.name}}</template>
+      </user-list>
+    </div>
     <div class="chat-bottom-area flex">
       <el-input type="textarea" autosize placeholder="请输入内容" v-model="chat"></el-input>
       <el-button type="primary" plain size="mini" @click="handleSocket">发送</el-button>
@@ -13,13 +18,15 @@
 </template>
 
 <script>
+import { getUserList } from '@/api/user'
+import responseHandler from '@/utils/response'
+import userList from './userList'
 const io = require('socket.io-client')
-import protoRoot from '@/proto/proto'
-
 let vm = ''
 
 export default {
   name: 'userCount',
+  components: { userList },
   // inheritAttrs: false,
   props: ['isUpdate', 'isRefresh'],
   inject: ['provideTestData'],
@@ -27,35 +34,38 @@ export default {
     return {
       chat: '',
       messageList: [],
+      userList: [],
       socketId: ''
     }
   },
   created() {
+    // created先执行
     console.log('测试created与inject的先后')
+    this.getUserListData()
   },
   mounted() {
-    function selfFun(name) {
-      this.name = name
-    }
-    let testObj = new selfFun('xuhaibin')
-    console.log(Object.getPrototypeOf(testObj) === selfFun.prototype)
+    // function selfFun(name) {
+    //   this.name = name
+    // }
+    // let testObj = new selfFun('xuhaibin')
+    // console.log(Object.getPrototypeOf(testObj) === selfFun.prototype)
     vm = this
-    this.socket = io('http://10.221.230.190:7777')
+    vm.messageList = []
+    this.socket = io('http://10.221.230.190:8002')
+    this.socket.emit('userId', { userId: '01' })
     this.socket.on('socketId', data => {
       this.socketId = data
     })
     this.socket.on('message', data => {
       vm.messageList.push(data)
     })
-    this.socket.on('userDisconnect', data => {
-      console.log('userDisconnect')
-    })
   },
   methods: {
-    encodeData(field, param) {
-      const pbConstruct = protoRoot.lookup(field)
-      const data = pbConstruct.create(param)
-      return pbConstruct.encode(data).finish()
+    async getUserListData() {
+      const resp = await getUserList()
+      responseHandler.bind(this)(resp, () => {
+        this.userList = resp.data
+      })
     },
     handleSocket() {
       this.$emit('update:isRefresh', !this.isRefresh)
