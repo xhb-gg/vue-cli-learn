@@ -11,7 +11,7 @@
     "open": "opener http://localhost:1002"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "barrage-ui": "^1.4.0",
     "core-js": "^2.6.5",
     "element-ui": "^2.11.1",
